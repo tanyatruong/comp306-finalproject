@@ -24,8 +24,8 @@ namespace API.Models
 		[DynamoDBProperty("address")]
 		public string Address { get; set; }
 
-		[DynamoDBProperty("jobId")]
-		public int JobId { get; set; }
+		[DynamoDBProperty("job")]
+		public Job Job { get; set; }
 
 		[DynamoDBProperty("hireDate")]
 		public string HireDate { get; set; }

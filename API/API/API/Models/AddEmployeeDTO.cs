@@ -17,6 +17,14 @@ namespace API.Models
 
 		public int JobId { get; set; }
 
+		public string JobTitle { get; set; }
+
+		public double BaseSalary { get; set; }
+
+		public string Department { get; set; }
+
+		public Manager Manager { get; set; }
+
 		public string HireDate { get; set; }
 
 		public double Salary { get; set; }

@@ -29,8 +29,8 @@ namespace API.Controllers
 		public async Task<IActionResult> GetAllEmployees()
 		{
 			var allEmployees = await _context.ScanAsync<Employee>(default).GetRemainingAsync();
-			var allEmployeesDTO = _mapper.Map<List<EmployeeDTO>>(allEmployees);
-			return Ok(allEmployeesDTO);
+			
+			return Ok(allEmployees);
 		}
 
 		[HttpGet("{id}")]
@@ -41,15 +41,15 @@ namespace API.Controllers
 			{
 				return NotFound();
 			}
-			var employeeDTO = _mapper.Map<EmployeeDTO>(employee);
-			return Ok(employeeDTO);
+			
+			return Ok(employee);
 		}
 
 
 		[HttpPost]
 		public async Task<IActionResult> CreateEmployee([FromBody] AddEmployeeDTO addEmployeeDTO)
 		{
-			var employee = _mapper.Map<Employee>(addEmployeeDTO);
+			var newEmployee = _mapper.Map<EmployeeDTO>(addEmployeeDTO);
 
 			int count = 0;
 			ScanRequest request = new ScanRequest
@@ -93,10 +93,9 @@ namespace API.Controllers
 					throw new Exception("Error occurred while accessing DynamoDB", ex);
 				}
 			}
-
+			var employee = _mapper.Map<Employee>(newEmployee);
 			employee.EmployeeId = count;
 			await _context.SaveAsync(employee);
-			var employeeDTO = _mapper.Map<EmployeeDTO>(employee);
 			return Ok(employee);
 		}
 
@@ -123,7 +122,6 @@ namespace API.Controllers
 			}
 			var employeeDTO = _mapper.Map<EmployeeDTO>(employee);
 			patchDoc.ApplyTo(employeeDTO);
-			Trace.WriteLine(employeeDTO.FirstName);
 			_mapper.Map(employeeDTO, employee);
 
 			await _context.SaveAsync(employee);
