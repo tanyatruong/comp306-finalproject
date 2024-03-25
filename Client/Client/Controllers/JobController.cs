@@ -12,5 +12,16 @@ namespace Client.Controllers
         {
             _jobHttpClient = jobHttpClient;
         }
+        public async Task<IActionResult> Index()
+        {
+            var allEmployees = await _jobHttpClient.GetAllJobs();
+            return View(allEmployees);
+        }
+
+        public async Task<IActionResult> View(int id)
+        {
+            var employee = await _jobHttpClient.GetJobById(id);
+            return View(employee);
+        }
     }
 }

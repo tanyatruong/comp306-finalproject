@@ -1,0 +1,31 @@
+﻿@model Client.Models.JobViewModel
+
+@{
+    ViewData["Title"] = "Update Job";
+}
+
+<h1>Update Job</h1>
+
+<form method="post">
+    <div class="form-group">
+        <label for="JobTitle">Job Title:</label>
+        <input type="text" class="form-control" id="JobTitle" name="JobTitle" value="@Model.JobTitle">
+    </div>
+    <div class="form-group">
+        <label for="BaseSalary">Base Salary:</label>
+        <input type="number" class="form-control" id="BaseSalary" name="BaseSalary" value="@Model.BaseSalary">
+    </div>
+    <div class="form-group">
+        <label for="Department">Department:</label>
+        <select class="form-control" id="Department" name="Department">
+            @foreach (var department in Enum.GetValues(typeof(Client.Models.Department)))
+            {
+                <option value="@department" selected="@(Model.Department == department.ToString() ? "selected" : null)">@department</option>
+            }
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+<div class="card-footer">
+    <a href="@Url.Action("Index", "Job")" class="btn btn-primary">Back to List</a>
+</div>
