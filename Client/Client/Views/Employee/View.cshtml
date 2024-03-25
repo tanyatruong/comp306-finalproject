@@ -1,0 +1,33 @@
+﻿@model Client.Models.EmployeeViewModel
+
+@{
+    ViewData["Title"] = "Employee Details";
+}
+<h1>Employee Details</h1>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0">@Model.FirstName @Model.LastName</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><strong>Email:</strong> @Model.Email</li>
+                        <li class="list-group-item"><strong>Phone Number:</strong> @Model.PhoneNumber</li>
+                        <li class="list-group-item"><strong>Address:</strong> @Model.Address</li>
+                        <li class="list-group-item"><strong>Job Title:</strong> @Model.Job.JobTitle</li>
+                        <li class="list-group-item"><strong>Department:</strong> @Model.Job.Department</li>
+                        <li class="list-group-item"><strong>Manager:</strong> @Model.Job.Manager.FirstName @Model.Job.Manager.LastName </li>
+                        <li class="list-group-item"><strong>Hire Date:</strong> @Model.HireDate</li>
+                        <li class="list-group-item"><strong>Salary:</strong> @Model.Salary</li>
+                        <li class="list-group-item"><strong>Employment Type:</strong> @Model.EmploymentType</li>
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    <a href="@Url.Action("Index", "Employee")" class="btn btn-primary">Back to List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
