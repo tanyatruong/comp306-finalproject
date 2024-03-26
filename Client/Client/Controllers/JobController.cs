@@ -1,5 +1,6 @@
 ﻿using Client.HttpClients;
 using Client.Models;
+using Client.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -41,6 +42,25 @@ namespace Client.Controllers
                 return RedirectToAction("Index");
             }
             return View(updatedJob);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Create()
+        {
+            Manager newManager = new Manager();
+            AddJobDTO job = new AddJobDTO()
+            {
+                Manager = newManager
+            };
+            return View(job);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(AddJobDTO job)
+        {
+
+            await _jobService.CreateJob(job);
+            return RedirectToAction("Index");
         }
     }
 }

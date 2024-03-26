@@ -30,5 +30,11 @@ namespace Client.HttpClients
             var response = await _httpClient.PutAsJsonAsync($"api/Job/{updatedJob.JobId}", updatedJob);
             response.EnsureSuccessStatusCode();
         }
+
+        public async Task CreateJob(AddJobDTO newJob)
+        {
+            var response = await _httpClient.PostAsJsonAsync("/api/Job", newJob);
+            response.EnsureSuccessStatusCode();
+        }
     }
 }
