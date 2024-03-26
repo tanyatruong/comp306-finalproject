@@ -31,8 +31,9 @@ namespace API.Models
 
 		public string EndDate { get; set; }
 
+		public double Salary { get; set; }
 
-
+		public string EmploymentType { get; set; }
 
 
 	}
