@@ -2,6 +2,7 @@
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.Model;
 using API.Models;
+using API.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -14,29 +15,32 @@ namespace API.Controllers
 	[ApiController]
 	public class EmployeeController : Controller
 	{
-		private readonly IDynamoDBContext _context;
-		private readonly IAmazonDynamoDB _dbclient;
-		private readonly IMapper _mapper;
+		//private readonly IDynamoDBContext _context;
+		//private readonly IAmazonDynamoDB _dbclient;
+		//private readonly IMapper _mapper;
 
-		public EmployeeController(IAmazonDynamoDB dynamoDBClient, IDynamoDBContext context, IMapper mapper)
+		private readonly IEmployeeRepository _employeeRepository;
+		public EmployeeController( IEmployeeRepository employeeRepository)
 		{
-			_dbclient = dynamoDBClient;
-			_context = context;
-			_mapper = mapper;
+			//_dbclient = dynamoDBClient;
+			//_context = context;
+			//_mapper = mapper;
+			_employeeRepository = employeeRepository;
 		}
+
 
 		[HttpGet]
 		public async Task<IActionResult> GetAllEmployees()
 		{
-			var allEmployees = await _context.ScanAsync<Employee>(default).GetRemainingAsync();
-			
+			var allEmployees = await _employeeRepository.GetAllEmployeesAsync();
+
 			return Ok(allEmployees);
 		}
 
 		[HttpGet("{id}")]
 		public async Task<IActionResult> GetEmployeeById(int id)
 		{
-			var employee = await _context.LoadAsync<Employee>(id);
+			var employee = await _employeeRepository.GetEmployeeAsync(id);
 			if (employee == null)
 			{
 				return NotFound();
@@ -49,94 +53,40 @@ namespace API.Controllers
 		[HttpPost]
 		public async Task<IActionResult> CreateEmployee([FromBody] AddEmployeeDTO addEmployeeDTO)
 		{
-			var newEmployee = _mapper.Map<EmployeeDTO>(addEmployeeDTO);
-
-			int count = 0;
-			ScanRequest request = new ScanRequest
-			{
-				TableName = "Employees",
-				Select = Select.COUNT
-			};
-
-			var response = await _dbclient.ScanAsync(request);
-
-			if (response.HttpStatusCode == System.Net.HttpStatusCode.OK)
-			{
-				if (response.Count > 0)
-				{
-					Trace.WriteLine($"There are {response.Count} item(s) in the table");
-					count = response.Count + 1;
-				}
-			}
-
-			while (true)
-			{
-				try
-				{
-					// Check if the ID exists
-					var existingItem = await _context.LoadAsync<Employee>(count);
-
-					if (existingItem == null)
-					{
-						// ID does not exist, return the same ID
-						break;
-					}
-					else
-					{
-						// ID exists, increment it by 1
-						count += 1;
-					}
-				}
-				catch (AmazonDynamoDBException ex)
-				{
-					// Handle exception
-					throw new Exception("Error occurred while accessing DynamoDB", ex);
-				}
-			}
-			var employee = _mapper.Map<Employee>(newEmployee);
-			employee.EmployeeId = count;
-			await _context.SaveAsync(employee);
+			var employee = await _employeeRepository.AddEmployeeAsync(addEmployeeDTO);
 			return Ok(employee);
 		}
 
 		[HttpPut("{id}")]
 		public async Task<IActionResult> UpdateEmployee(int id, [FromBody] UpdateEmployeeDTO updateEmployeeDTO)
 		{
-			var employee = await _context.LoadAsync<Employee>(id);
+			var employee = await _employeeRepository.UpdateEmployeeAsync(id, updateEmployeeDTO);
 			if (employee == null)
 			{
 				return NotFound();
 			}
-			_mapper.Map(updateEmployeeDTO, employee);
-			await _context.SaveAsync(employee);
 			return Ok(employee);
 		}
 
 		[HttpPatch("{id}")]
 		public async Task<IActionResult> PartiallyUpdateEmployee(int id, [FromBody] JsonPatchDocument<EmployeeDTO> patchDoc)
 		{
-			var employee = await _context.LoadAsync<Employee>(id);
+			var employee = await _employeeRepository.UpdateEmployeePatchAsync(id, patchDoc);
 			if (employee == null)
 			{
 				return NotFound();
 			}
-			var employeeDTO = _mapper.Map<EmployeeDTO>(employee);
-			patchDoc.ApplyTo(employeeDTO);
-			_mapper.Map(employeeDTO, employee);
-
-			await _context.SaveAsync(employee);
 			return Ok(employee);
 		}
 
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> DeleteEmployee(int id)
 		{
-			var employee = await _context.LoadAsync<Employee>(id);
+			var employee = await _employeeRepository.DeleteEmployeeAsync(id);
 			if (employee == null)
 			{
 				return NotFound();
 			}
-			await _context.DeleteAsync(employee);
 			return Ok(employee);
 		}
 

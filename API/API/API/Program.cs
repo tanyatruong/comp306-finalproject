@@ -3,6 +3,7 @@ using Amazon.DynamoDBv2;
 using API.Models;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using JsonPatchSample;
+using API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,7 +21,8 @@ var awsOptions = builder.Configuration.GetAWSOptions();
 builder.Services.AddDefaultAWSOptions(awsOptions);
 builder.Services.AddAWSService<IAmazonDynamoDB>();
 builder.Services.AddScoped<IDynamoDBContext, DynamoDBContext>();
-
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddScoped<IJobRepository, JobRepository>();
 
 builder.Services.AddAutoMapper(builder => builder.AddProfile<MappingProfile>(), typeof(Program).Assembly);
 
