@@ -24,5 +24,11 @@ namespace Client.HttpClients
             response.EnsureSuccessStatusCode();
             return await response.Content.ReadFromJsonAsync<JobViewModel>();
         }
+
+        public async Task UpdateJob(JobViewModel updatedJob)
+        {
+            var response = await _httpClient.PutAsJsonAsync($"api/Job/{updatedJob.JobId}", updatedJob);
+            response.EnsureSuccessStatusCode();
+        }
     }
 }

@@ -1,28 +1,34 @@
 ﻿@model Client.Models.JobViewModel
-
 @{
     ViewData["Title"] = "Update Job";
 }
 
-<h1>Update Job</h1>
+<h1>Edit Job</h1>
 
 <form method="post">
     <div class="form-group">
+        <label for="JobId">Job ID:</label>
+        <input type="text" class="form-control" id="JobId" name="JobId" value="@Model.JobId" readonly>
+    </div>
+    <div class="form-group">
         <label for="JobTitle">Job Title:</label>
-        <input type="text" class="form-control" id="JobTitle" name="JobTitle" value="@Model.JobTitle">
+        <input type="text" class="form-control" id="JobTitle" name="JobTitle" value="@Model.JobTitle" readonly>
     </div>
     <div class="form-group">
         <label for="BaseSalary">Base Salary:</label>
-        <input type="number" class="form-control" id="BaseSalary" name="BaseSalary" value="@Model.BaseSalary">
+        <input type="text" class="form-control" id="BaseSalary" name="BaseSalary" value="@Model.BaseSalary" readonly>
     </div>
     <div class="form-group">
         <label for="Department">Department:</label>
-        <select class="form-control" id="Department" name="Department">
-            @foreach (var department in Enum.GetValues(typeof(Client.Models.Department)))
-            {
-                <option value="@department" selected="@(Model.Department == department.ToString() ? "selected" : null)">@department</option>
-            }
-        </select>
+        <input type="text" class="form-control" id="Department" name="Department" value="@Model.Department" readonly>
+    </div>
+    <div class="form-group">
+        <label for="ManagerFirstName">Manager First Name:</label>
+        <input type="text" class="form-control" id="ManagerFirstName" name="ManagerFirstName" value="@Model.Manager.FirstName">
+    </div>
+    <div class="form-group">
+        <label for="ManagerLastName">Manager Last Name:</label>
+        <input type="text" class="form-control" id="ManagerLastName" name="ManagerLastName" value="@Model.Manager.LastName">
     </div>
     <button type="submit" class="btn btn-primary">Save</button>
 </form>

@@ -1,11 +1,13 @@
 ﻿@model Client.Models.UpdateEmployeeDTO
+
 @{
     ViewData["Title"] = "Update Employee";
 }
 
 <h1>Edit Employee</h1>
 
-<form method="post">
+<form method="post" action="@Url.Action("Update", "Employee")">
+    <input type="hidden" name="EmployeeId" value="@ViewBag.EmployeeId">
     <div class="form-group">
         <label for="PhoneNumber">Phone Number:</label>
         <input type="text" class="form-control" id="PhoneNumber" name="PhoneNumber" value="@Model.PhoneNumber">
@@ -15,21 +17,53 @@
         <input type="text" class="form-control" id="Address" name="Address" value="@Model.Address">
     </div>
     <div class="form-group">
+        <label for="JobId">Job ID:</label>
+        <input type="number" class="form-control" id="JobId" name="JobId" value="@Model.JobId">
+    </div>
+    <div class="form-group">
+        <label for="JobTitle">Job Title:</label>
+        <input type="text" class="form-control" id="JobTitle" name="JobTitle" value="@Model.JobTitle">
+    </div>
+    <div class="form-group">
         <label for="BaseSalary">Base Salary:</label>
         <input type="number" class="form-control" id="BaseSalary" name="BaseSalary" value="@Model.BaseSalary">
     </div>
     <div class="form-group">
         <label for="Department">Department:</label>
-        <select class="form-control" id="Department" name="Department">
-            @foreach (var department in Enum.GetValues(typeof(Department)))
-            {
-                <option value="@department" selected="@(Model.Department == department.ToString() ? "selected" : null)">@department</option>
-            }
-        </select>
+        <input type="text" class="form-control" id="Department" name="Department" value="@Model.Department">
+    </div>
+    <div class="form-group">
+        <label for="ManagerFirstName">Manager First Name:</label>
+        <input type="text" class="form-control" id="ManagerFirstName" name="Manager.FirstName" value="@Model.Manager.FirstName">
+    </div>
+    <div class="form-group">
+        <label for="ManagerLastName">Manager Last Name:</label>
+        <input type="text" class="form-control" id="ManagerLastName" name="Manager.LastName" value="@Model.Manager.LastName">
+    </div>
+    <!-- Show other Manager fields -->
+    <div class="form-group">
+        <label for="ManagerEmployeeId">Manager Employee ID:</label>
+        <input type="number" class="form-control" id="ManagerEmployeeId" name="Manager.EmployeeId" value="@Model.Manager.EmployeeId">
+    </div>
+    <div class="form-group">
+        <label for="ManagerEmail">Manager Email:</label>
+        <input type="email" class="form-control" id="ManagerEmail" name="Manager.Email" value="@Model.Manager.Email">
+    </div>
+    <div class="form-group">
+        <label for="ManagerPhoneNumber">Manager Phone Number:</label>
+        <input type="text" class="form-control" id="ManagerPhoneNumber" name="Manager.PhoneNumber" value="@Model.Manager.PhoneNumber">
+    </div>
+    <div class="form-group">
+        <label for="ManagerAddress">Manager Address:</label>
+        <input type="text" class="form-control" id="ManagerAddress" name="Manager.Address" value="@Model.Manager.Address">
+    </div>
+    <div class="form-group">
+        <label for="ManagerJobId">Manager Job ID:</label>
+        <input type="number" class="form-control" id="ManagerJobId" name="Manager.JobId" value="@Model.Manager.JobId">
     </div>
     <div class="form-group">
         <label for="EndDate">End Date:</label>
-        <input type="text" class="form-control" id="EndDate" name="EndDate" value="@Model.EndDate">
+        <input type="date" class="form-control" id="EndDate" name="EndDate" value="@Model.EndDate" required pattern="\d{4}-\d{2}-\d{2}">
     </div>
     <div class="form-group">
         <label for="Salary">Salary:</label>
@@ -39,8 +73,7 @@
         <label for="EmploymentType">Employment Type:</label>
         <input type="text" class="form-control" id="EmploymentType" name="EmploymentType" value="@Model.EmploymentType">
     </div>
+
     <button type="submit" class="btn btn-primary">Save</button>
+    <a href="@Url.Action("Index", "Employee")" class="btn btn-secondary">Cancel</a>
 </form>
-<div class="card-footer">
-    <a href="@Url.Action("Index", "Employee")" class="btn btn-primary">Back to List</a>
-</div>

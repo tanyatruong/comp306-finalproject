@@ -1,6 +1,6 @@
 ﻿namespace Client.Models
 {
-    public class ManagerViewModel
+    public class Manager
     {
         public int EmployeeId { get; set; }
         public string FirstName { get; set; }

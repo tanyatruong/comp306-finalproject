@@ -26,7 +26,5 @@ namespace API.Models
 
 		public string EmploymentType { get; set; }
 
-
-
 	}
 }

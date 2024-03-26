@@ -1,8 +1,8 @@
-﻿namespace Client.Models
+﻿
+namespace Client.Models
 {
-    public class UpdateEmployeeDTO
+    public class UpdateEmployeeViewModel
     {
-        public string Id { get; set; }
         public string PhoneNumber { get; set; }
 
         public string Address { get; set; }
