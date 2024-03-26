@@ -62,5 +62,11 @@ namespace Client.Controllers
             await _jobService.CreateJob(job);
             return RedirectToAction("Index");
         }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _jobService.DeleteJob(id);
+            return RedirectToAction("Index");
+        }
     }
 }

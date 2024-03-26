@@ -36,5 +36,11 @@ namespace Client.HttpClients
             var response = await _httpClient.PostAsJsonAsync("/api/Job", newJob);
             response.EnsureSuccessStatusCode();
         }
+
+        public async Task DeleteJob(int id)
+        {
+            var response = await _httpClient.DeleteAsync($"/api/Job/{id}");
+            response.EnsureSuccessStatusCode();
+        }
     }
 }
