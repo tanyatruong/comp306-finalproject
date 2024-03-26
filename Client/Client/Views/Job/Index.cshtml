@@ -34,12 +34,14 @@
                     <td>@job.Manager.FirstName @job.Manager.LastName</td>
                     <td>
                         <!-- Action Buttons -->
-                        <a href="@Url.Action("View", "Job", new { id = job.JobId })" class="btn btn-primary">View</a>
-                        <a href="@Url.Action("Update", "Job", new { id = job.JobId })" class="btn btn-secondary">Edit</a>
-                        <form action="@Url.Action("Delete", "Job")" method="post">
-                            <input type="hidden" name="id" value="@job.JobId" />
-                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this?');">Delete</button>
-                        </form>
+                        <div class="btn-group" role="group">
+                            <a href="@Url.Action("View", "Job", new { id = job.JobId })" class="btn btn-primary">View</a>
+                            <a href="@Url.Action("Update", "Job", new { id = job.JobId })" class="btn btn-secondary">Edit</a>
+                            <form action="@Url.Action("Delete", "Job")" method="post">
+                                <input type="hidden" name="id" value="@job.JobId" />
+                                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this?');">Delete</button>
+                            </form>
+                        </div>
                     </td>
                 </tr>
             }

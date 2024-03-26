@@ -1,37 +1,41 @@
-﻿@model Client.Models.JobViewModel
+﻿@model Client.Models.UpdateJobDTO
 @{
     ViewData["Title"] = "Update Job";
 }
 
 <h1>Edit Job</h1>
 
-<form method="post">
+<form method="post" action="@Url.Action("Update", "Job")">
+    <input type="hidden" name="JobId" value="@ViewBag.JobId">
+
     <div class="form-group">
-        <label for="JobId">Job ID:</label>
-        <input type="text" class="form-control" id="JobId" name="JobId" value="@Model.JobId" readonly>
-    </div>
-    <div class="form-group">
-        <label for="JobTitle">Job Title:</label>
-        <input type="text" class="form-control" id="JobTitle" name="JobTitle" value="@Model.JobTitle" readonly>
-    </div>
-    <div class="form-group">
-        <label for="BaseSalary">Base Salary:</label>
-        <input type="text" class="form-control" id="BaseSalary" name="BaseSalary" value="@Model.BaseSalary" readonly>
-    </div>
-    <div class="form-group">
-        <label for="Department">Department:</label>
-        <input type="text" class="form-control" id="Department" name="Department" value="@Model.Department" readonly>
+        <label for="ManagerEmployeeId">Manager Employee ID:</label>
+        <input type="number" class="form-control" id="ManagerEmployeeId" name="Manager.EmployeeId" value="@Model.Manager.EmployeeId" readonly>
     </div>
     <div class="form-group">
         <label for="ManagerFirstName">Manager First Name:</label>
-        <input type="text" class="form-control" id="ManagerFirstName" name="ManagerFirstName" value="@Model.Manager.FirstName">
+        <input type="text" class="form-control" id="ManagerFirstName" name="Manager.FirstName" value="@Model.Manager.FirstName">
     </div>
     <div class="form-group">
         <label for="ManagerLastName">Manager Last Name:</label>
-        <input type="text" class="form-control" id="ManagerLastName" name="ManagerLastName" value="@Model.Manager.LastName">
+        <input type="text" class="form-control" id="ManagerLastName" name="Manager.LastName" value="@Model.Manager.LastName">
+    </div>
+    <div class="form-group">
+        <label for="ManagerEmail">Manager Email:</label>
+        <input type="email" class="form-control" id="ManagerEmail" name="Manager.Email" value="@Model.Manager.Email">
+    </div>
+    <div class="form-group">
+        <label for="ManagerPhoneNumber">Manager Phone Number:</label>
+        <input type="text" class="form-control" id="ManagerPhoneNumber" name="Manager.PhoneNumber" value="@Model.Manager.PhoneNumber">
+    </div>
+    <div class="form-group">
+        <label for="ManagerAddress">Manager Address:</label>
+        <input type="text" class="form-control" id="ManagerAddress" name="Manager.Address" value="@Model.Manager.Address">
+    </div>
+    <div class="form-group">
+        <label for="ManagerJobId">Manager Job ID:</label>
+        <input type="number" class="form-control" id="ManagerJobId" name="Manager.JobId" value="@Model.Manager.JobId">
     </div>
     <button type="submit" class="btn btn-primary">Save</button>
+    <a href="@Url.Action("Index", "Job")" class="btn btn-secondary">Cancel</a>
 </form>
-<div class="card-footer">
-    <a href="@Url.Action("Index", "Job")" class="btn btn-primary">Back to List</a>
-</div>

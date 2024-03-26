@@ -26,22 +26,18 @@ namespace Client.Controllers
             return View(employee);
         }
 
+        [HttpGet]
         public async Task<IActionResult> Update(int id)
         {
-            var job = await _jobService.GetJobById(id);
+            UpdateJobDTO job = await _jobService.GetUpdateJobById(id);
+            ViewBag.JobId = id;
             return View(job);
         }
-
         [HttpPost]
-        public async Task<IActionResult> Update(JobViewModel updatedJob)
+        public async Task<IActionResult> Update(int JobId, UpdateJobDTO updateJobDTO)
         {
-            if (ModelState.IsValid)
-            {
-                updatedJob.Manager.FirstName = updatedJob.Manager.LastName;
-                await _jobService.UpdateJob(updatedJob);
-                return RedirectToAction("Index");
-            }
-            return View(updatedJob);
+            await _jobService.UpdateJobById(JobId, updateJobDTO);
+            return RedirectToAction("Index");
         }
 
         [HttpGet]

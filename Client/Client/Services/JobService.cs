@@ -25,9 +25,34 @@ namespace Client.HttpClients
             return await response.Content.ReadFromJsonAsync<JobViewModel>();
         }
 
-        public async Task UpdateJob(JobViewModel updatedJob)
+        public async Task<UpdateJobDTO> GetUpdateJobById(int id)
         {
-            var response = await _httpClient.PutAsJsonAsync($"api/Job/{updatedJob.JobId}", updatedJob);
+            var response = await _httpClient.GetAsync($"/api/Job/{id}");
+            response.EnsureSuccessStatusCode();
+            var job = await response.Content.ReadFromJsonAsync<JobViewModel>();
+
+            // Map the response to UpdateEmployeeViewModel
+            var updateJobViewModel = new UpdateJobDTO
+            {
+                Manager = new Manager
+                {
+                    EmployeeId = job.Manager.EmployeeId,
+                    FirstName = job.Manager.FirstName,
+                    LastName = job.Manager.LastName,
+                    Email = job.Manager.Email,
+                    PhoneNumber = job.Manager.PhoneNumber,
+                    Address = job.Manager.Address,
+                    JobId = job.Manager.JobId
+                }
+            };
+
+            return updateJobViewModel;
+        }
+
+        public async Task UpdateJobById(int id, UpdateJobDTO updateJobDTO)
+        {
+
+            var response = await _httpClient.PutAsJsonAsync($"/api/Job/{id}", updateJobDTO);
             response.EnsureSuccessStatusCode();
         }
 
