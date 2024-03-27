@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
+using System.Diagnostics;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
@@ -22,21 +24,24 @@ namespace Client.Services
 
         public async Task<IEnumerable<EmployeeViewModel>> GetAllEmployees()
         {
-            var response = await _httpClient.GetAsync("/api/Employee");
+			Trace.WriteLine(_httpClient.BaseAddress);
+			Trace.WriteLine(_httpClient.DefaultRequestHeaders);
+			var response = await _httpClient.GetAsync("api/Employee");
+            Trace.WriteLine("stats: "+response.Headers);
             response.EnsureSuccessStatusCode();
             return await response.Content.ReadFromJsonAsync<IEnumerable<EmployeeViewModel>>();
         }
 
         public async Task<EmployeeDTO> GetEmployeeById(int id)
         {
-            var response = await _httpClient.GetAsync($"/api/Employee/{id}");
+            var response = await _httpClient.GetAsync($"api/Employee/{id}");
             response.EnsureSuccessStatusCode();
             return await response.Content.ReadFromJsonAsync<EmployeeDTO>();
         }
 
         public async Task<UpdateEmployeeDTO> GetUpdateEmployeeById(int id)
         {
-            var response = await _httpClient.GetAsync($"/api/Employee/{id}");
+            var response = await _httpClient.GetAsync($"api/Employee/{id}");
             response.EnsureSuccessStatusCode();
             var employee = await response.Content.ReadFromJsonAsync<UpdateEmployeeDTO>();
 
@@ -47,20 +52,20 @@ namespace Client.Services
         {
             if (updateEmployeeDTO.EndDate == null)
                 updateEmployeeDTO.EndDate = "";
-            var response = await _httpClient.PutAsJsonAsync($"/api/Employee/{id}", updateEmployeeDTO);
+            var response = await _httpClient.PutAsJsonAsync($"api/Employee/{id}", updateEmployeeDTO);
             response.EnsureSuccessStatusCode();
         }
 
 
         public async Task CreateEmployee(AddEmployeeDTO newEmployee)
         {
-            var response = await _httpClient.PostAsJsonAsync("/api/Employee", newEmployee);
+            var response = await _httpClient.PostAsJsonAsync("api/Employee", newEmployee);
             response.EnsureSuccessStatusCode();
         }
 
         public async Task Delete(int id)
         {
-            var response = await _httpClient.DeleteAsync($"/api/Employee/{id}");
+            var response = await _httpClient.DeleteAsync($"api/Employee/{id}");
             response.EnsureSuccessStatusCode();
         }
 

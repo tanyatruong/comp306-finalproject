@@ -30,7 +30,7 @@ namespace Client.HttpClients
 
         public async Task<UpdateJobDTO> GetUpdateJobById(int id)
         {
-            var response = await _httpClient.GetAsync($"/api/Job/{id}");
+            var response = await _httpClient.GetAsync($"api/Job/{id}");
             response.EnsureSuccessStatusCode();
             var job = await response.Content.ReadFromJsonAsync<JobViewModel>();
 
@@ -55,19 +55,19 @@ namespace Client.HttpClients
         public async Task UpdateJobById(int id, UpdateJobDTO updateJobDTO)
         {
 
-            var response = await _httpClient.PutAsJsonAsync($"/api/Job/{id}", updateJobDTO);
+            var response = await _httpClient.PutAsJsonAsync($"api/Job/{id}", updateJobDTO);
             response.EnsureSuccessStatusCode();
         }
 
         public async Task CreateJob(AddJobDTO newJob)
         {
-            var response = await _httpClient.PostAsJsonAsync("/api/Job", newJob);
+            var response = await _httpClient.PostAsJsonAsync("api/Job", newJob);
             response.EnsureSuccessStatusCode();
         }
 
         public async Task DeleteJob(int id)
         {
-            var response = await _httpClient.DeleteAsync($"/api/Job/{id}");
+            var response = await _httpClient.DeleteAsync($"api/Job/{id}");
             response.EnsureSuccessStatusCode();
         }
 
