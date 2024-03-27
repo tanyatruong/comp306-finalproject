@@ -58,10 +58,18 @@ namespace Client.Controllers
             return RedirectToAction("Index");
         }
 
+        // Delete Request
         public async Task<IActionResult> Delete(int id)
         {
             await _employeeService.Delete(id);
             return RedirectToAction("Index");
-        } 
+        }
+
+        // Patch Request
+        public async Task<IActionResult> Terminate(int id)
+        {
+            await _employeeService.UpdateEmployeeEndDate(id);
+            return RedirectToAction("Index");
+        }
     }
 }

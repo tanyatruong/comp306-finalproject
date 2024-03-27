@@ -59,9 +59,19 @@ namespace Client.Controllers
             return RedirectToAction("Index");
         }
 
+        // Delete Request
         public async Task<IActionResult> Delete(int id)
         {
             await _jobService.DeleteJob(id);
+            return RedirectToAction("Index");
+        }
+
+        // Patch Request
+        public async Task<IActionResult> RaiseBaseSalary(int id)
+        {
+            JobViewModel job = await _jobService.GetJobById(id);
+            double newBaseSalary = Math.Round(job.BaseSalary * 1.1,2);
+            await _jobService.UpdateBaseSalary(id, newBaseSalary);
             return RedirectToAction("Index");
         }
     }

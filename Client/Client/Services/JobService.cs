@@ -1,4 +1,7 @@
 ﻿using Client.Models;
+using Microsoft.AspNetCore.JsonPatch;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace Client.HttpClients
 {
@@ -65,6 +68,17 @@ namespace Client.HttpClients
         public async Task DeleteJob(int id)
         {
             var response = await _httpClient.DeleteAsync($"/api/Job/{id}");
+            response.EnsureSuccessStatusCode();
+        }
+
+        public async Task UpdateBaseSalary(int id, double newBaseSalary)
+        {
+            var patchDoc = new JsonPatchDocument<JobViewModel>();
+            patchDoc.Replace(e => e.BaseSalary, newBaseSalary);
+
+            var serializedDoc = JsonConvert.SerializeObject(patchDoc);
+            var requestContent = new StringContent(serializedDoc, Encoding.UTF8, "application/json-patch+json");
+            var response = await _httpClient.PatchAsync($"api/Job/{id}", requestContent);
             response.EnsureSuccessStatusCode();
         }
     }

@@ -1,4 +1,4 @@
-﻿@model Client.Models.EmployeeViewModel
+﻿@model Client.Models.EmployeeDTO
 
 @{
     ViewData["Title"] = "Employee Details";
@@ -16,9 +16,9 @@
                         <li class="list-group-item"><strong>Email:</strong> @Model.Email</li>
                         <li class="list-group-item"><strong>Phone Number:</strong> @Model.PhoneNumber</li>
                         <li class="list-group-item"><strong>Address:</strong> @Model.Address</li>
-                        <li class="list-group-item"><strong>Job Title:</strong> @Model.Job.JobTitle</li>
-                        <li class="list-group-item"><strong>Department:</strong> @Model.Job.Department</li>
-                        <li class="list-group-item"><strong>Manager:</strong> @Model.Job.Manager.FirstName @Model.Job.Manager.LastName </li>
+                        <li class="list-group-item"><strong>Job Title:</strong> @Model.JobTitle</li>
+                        <li class="list-group-item"><strong>Department:</strong> @Model.Department</li>
+                        <li class="list-group-item"><strong>Manager:</strong> @Model.Manager.FirstName @Model.Manager.LastName </li>
                         <li class="list-group-item"><strong>Hire Date:</strong> @Model.HireDate</li>
                         <li class="list-group-item"><strong>Salary:</strong> @Model.Salary</li>
                         <li class="list-group-item"><strong>Employment Type:</strong> @Model.EmploymentType</li>
